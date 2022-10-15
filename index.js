@@ -5,7 +5,7 @@ const http = require("http");
 const cors = require("cors");
 const {Server} = require('socket.io');
 
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 3001
 const server =  http.createServer(app);
 app.use(cors());
 
@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
     socket.on("create_room", (data) => {
         if (!rooms.includes(data)) {
             rooms.push(data);
-            socket.emit("request_rooms", rooms) 
+            io.sockets.emit("request_rooms", rooms) 
         } else {
             socket.emit("room_exists", "sala já existe")
             console.log("sala já existe");
