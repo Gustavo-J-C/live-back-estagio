@@ -23,6 +23,14 @@ io.on("connection", (socket) => {
     socket.emit("request_rooms", rooms);
     console.log(`User Connected: ${socket.id}`);
 
+    socket.on('check_room', (data) => {
+        if (rooms.includes(data.room)) {
+            socket.to(data.room).emit('room_validation',true)
+        } else {
+            socket.to(data.room).emit('room_validation',false)
+        }
+    })
+
     socket.on("set_video", (data) => {
         console.log("set video: ",data)
         socket.to(data.room).emit("recieve_video", data.newLink)
